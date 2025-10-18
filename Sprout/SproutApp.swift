@@ -11,7 +11,7 @@ import SwiftUI
 struct SproutApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            BarView()
         }
     }
 }
