@@ -23,6 +23,12 @@ struct BarView: View {
                     Text("Events")
                         .font(.title)
                 }.tag(2)
+                GardenListView().tabItem {
+                    Image(systemName: "leaf.fill")
+                    Text("Gardens")
+                        .font(.title)
+                }.tag(3)
+                
             }
             
         }
