@@ -47,11 +47,8 @@ enum GardenMocks {
         .init(prefName: "Elephant", iconName: "ge20"),
         .init(prefName: "Tai Lung", iconName: "ge1"),
         .init(prefName: "Shen", iconName: "ge2")
-        
-        
-        
-        
     ]
+    
 
     static let gardens: [Garden] = [
         .init(title: "Kungfu Meetup", date: "Juanuary 12, 2025", profiles: profiles),
