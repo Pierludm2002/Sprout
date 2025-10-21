@@ -21,7 +21,7 @@ struct GardenListView: View {
                             .shadow(color: .black.opacity(0.08), radius: 20, x: 0, y: 10)
                     }
                     .padding(.top, 8)
-                    .padding(.bottom, 32)
+                    .padding(.bottom, 2)
                 }
             }
             .background(
