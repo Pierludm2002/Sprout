@@ -23,5 +23,3 @@ struct AppStyles {
         static let secondary = Color.gray.opacity(0.8)
     }
 }
-
-
