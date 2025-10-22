@@ -28,7 +28,6 @@ struct EventsView: View {
                 
                 Divider()
                 
-                // Qui al posto di List usi ForEach
                 VStack(spacing: 8) {
                     List(gardens[0].profiles) { profile in
                         Button{
