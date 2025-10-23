@@ -38,9 +38,20 @@ struct GardenCardView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             
-            Text(garden.title)
-                .font(.title3)
-                .fontWeight(.semibold)
+            HStack {
+                Text(garden.title)
+                    .font(.title3)
+                    .fontWeight(.semibold)
+
+                Spacer()
+
+                NavigationLink(destination: GardenNameList()) {
+                    Image(systemName: "arrow.right.circle.fill")
+                        .font(.title2)
+                        .foregroundColor(.accentColor)
+                }
+                .buttonStyle(.plain)
+            }
             
             Text(garden.date)
                 .font(.footnote)
