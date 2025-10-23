@@ -17,7 +17,7 @@ struct CardInfoView: View {
     var body: some View {
         NavigationView {
             Form {
-                TextField("Preferred Name", text: $preferredName)
+                    TextField("Preferred Name", text: $preferredName)
                     TextField("Job Title", text: $jobTitle)
                     TextField("Company", text: $company)
                     
@@ -37,18 +37,19 @@ struct CardInfoView: View {
                         .fontWeight(.bold)
                         .frame(maxWidth: .infinity)
                         .padding(10)
-                        .glassEffect(.clear)
+                        .background(Color.gray.opacity(0.3))
+                        .foregroundColor(Color.white)
                         .cornerRadius(12)
                 }        .navigationTitle("Your Card Info")
                     .navigationBarTitleDisplayMode(.inline)
-            }
+                                }
                                 // Make the button row clear to allow a custom background color later if needed
-                                .backgroundView()
+                                .listRowBackground(Color.gray)
                             }
-                       
+                            .background(Color.gray)
                             .scrollContentBackground(.hidden) // Makes the default Form background transparent
                     
-    }
+                        }
                     }
 //test
                 
