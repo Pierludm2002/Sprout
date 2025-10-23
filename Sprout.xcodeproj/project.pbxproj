@@ -45,6 +45,11 @@
 			path = SproutUITests;
 			sourceTree = "<group>";
 		};
+		1E6FAA4E2EA7B8160066BA7E /* UIComponents */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = UIComponents;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +84,7 @@
 				1E4306902EA0FE3500A80B0F /* SproutTests */,
 				1E43069A2EA0FE3500A80B0F /* SproutUITests */,
 				1E4306812EA0FE3400A80B0F /* Products */,
+				1E6FAA4E2EA7B8160066BA7E /* UIComponents */,
 			);
 			sourceTree = "<group>";
 		};
@@ -109,6 +115,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				1E4306822EA0FE3400A80B0F /* Sprout */,
+				1E6FAA4E2EA7B8160066BA7E /* UIComponents */,
 			);
 			name = Sprout;
 			packageProductDependencies = (

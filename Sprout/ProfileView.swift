@@ -17,6 +17,9 @@ struct ProfileView: View {
     var interestedIn: [String] = ["Swift", "Operative Systems"]
     var workingOn: [String] = ["Swift"]
     
+    
+    @State private var selectedTags: Set<String> = []
+    
     var body: some View {
         
         ScrollView{
@@ -65,7 +68,7 @@ struct ProfileView: View {
                         Text("Open To").font(AppStyles.TextStyle.subtitle)
                             Spacer()
                     }
-                   HStack { //I found out that the only solution to have multiple elements of different size on multiple lines is with a flow layout.
+                    FlowLayout(spacing: 8, alignment: .leading) { //I found out that the only solution to have multiple elements of different size on multiple lines is with a flow layout.
                         ForEach(openTo, id: \.self) { open in
                             Text(open)
                                 .font(AppStyles.TextStyle.body)
@@ -82,17 +85,14 @@ struct ProfileView: View {
                         Text("Interested In").font(AppStyles.TextStyle.subtitle)
                         Spacer()
                     }
-                    HStack{
+                    FlowLayout(spacing: 8, alignment: .leading){
                         ForEach(interestedIn, id: \.self) {
                             interest in
-                            Text(interest)
+                            ButtonTagView(title: interest,
+                                          isSelected: selectedTags.contains(interest))
                                 .font(AppStyles.TextStyle.body)
                                 .padding(5)
-                                .background{
-                                    RoundedRectangle(cornerRadius: 12)
-                                        .foregroundStyle(.tint)
-                                        .opacity(0.2)
-                                }
+                                
                         }
                         Spacer()
                     }
@@ -101,7 +101,7 @@ struct ProfileView: View {
                         Text("Working on").font(AppStyles.TextStyle.subtitle)
                         Spacer()
                     }
-                    HStack{
+                    FlowLayout(spacing: 8, alignment: .trailing){
                         ForEach(workingOn, id: \.self){
                             work in
                             Text(work)
