@@ -9,7 +9,7 @@ import SwiftUI
 
 struct GardenNameList: View {
     let garden = GardenMocks.gardens.first!
-    @State private var searchText = "" 
+    @State private var searchText = ""
 
     var filteredProfiles: [Profile] {
         if searchText.isEmpty {
@@ -46,7 +46,7 @@ struct GardenNameList: View {
             .searchable(
                 text: $searchText,
                 placement: .navigationBarDrawer(displayMode: .always),
-                prompt: "Search by name"
+                prompt: "Who are you looking for?"
             )
         }
     }
