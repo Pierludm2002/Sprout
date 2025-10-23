@@ -14,6 +14,7 @@ struct TagsOpenTo {
 }
 
 class OpenToTagsModel: ObservableObject {
+    
     @Published var tags: [TagsOpenTo] = [
         TagsOpenTo(title: "Collaboration"),
         TagsOpenTo(title: "Networking"),
@@ -22,5 +23,6 @@ class OpenToTagsModel: ObservableObject {
         TagsOpenTo(title: "Feedback"),
         TagsOpenTo(title: "Opportunities"),
         TagsOpenTo(title: "Brainstorming"),
+        
     ]
 }

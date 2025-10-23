@@ -20,7 +20,7 @@ struct ContinueButtonView: View {
                 .padding(.horizontal, 20)
                 .padding(.vertical, 8)
                 .foregroundColor(.black)
-                .frame(width: 325, alignment: .leading)
+                .frame(width: 325, height: 60, alignment: .leading)
                 .cornerRadius(18)
                 .background(
                     RoundedRectangle(cornerRadius: 18)
