@@ -70,14 +70,9 @@ struct ProfileView: View {
                     }
                     FlowLayout(spacing: 8, alignment: .leading) { //I found out that the only solution to have multiple elements of different size on multiple lines is with a flow layout.
                         ForEach(openTo, id: \.self) { open in
-                            Text(open)
+                            TagView(title: open)
                                 .font(AppStyles.TextStyle.body)
-                                .padding(5)
-                                .background {
-                                    RoundedRectangle(cornerRadius: 12)
-                                        .foregroundStyle(.tint)
-                                        .opacity(0.2)
-                                }
+                                .padding(1)
                         }
                     }
                     Divider()
@@ -88,10 +83,9 @@ struct ProfileView: View {
                     FlowLayout(spacing: 8, alignment: .leading){
                         ForEach(interestedIn, id: \.self) {
                             interest in
-                            ButtonTagView(title: interest,
-                                          isSelected: selectedTags.contains(interest))
+                            TagView(title: interest)
                                 .font(AppStyles.TextStyle.body)
-                                .padding(5)
+                                .padding(1)
                                 
                         }
                         Spacer()
@@ -104,14 +98,9 @@ struct ProfileView: View {
                     FlowLayout(spacing: 8, alignment: .trailing){
                         ForEach(workingOn, id: \.self){
                             work in
-                            Text(work)
+                            TagView(title: work)
                                 .font(AppStyles.TextStyle.body)
-                                .padding(5)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 12)
-                                        .foregroundStyle(.tint)
-                                        .opacity(0.2)
-                                    )
+                                .padding(1)
                             
                         }
                         Spacer()
