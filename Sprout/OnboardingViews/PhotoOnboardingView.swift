@@ -49,7 +49,9 @@ struct PhotoOnboardingView: View {
                 }
                 VStack {
                     
-                    ContinueButtonView()
+                    ContinueButtonView(title: "Continue  →") {
+                       // onNext()
+                    }
                 }
                 
                 Spacer()

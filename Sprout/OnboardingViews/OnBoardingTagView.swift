@@ -11,7 +11,10 @@ import SwiftData
 struct OnBoardingTagView: View {
     
     @StateObject private var tagsModel = OpenToTagsModel()
-    @State private var selectedTags: Set<String> = []
+    @Binding var selectedOpenTo: [String]
+    
+    let onNext: () -> Void
+    let onBack: (() -> Void)?
     
     var body: some View {
         NavigationStack {
@@ -20,10 +23,12 @@ struct OnBoardingTagView: View {
                 
                 VStack(spacing: 20) {
                     
-                    BackButtonView()
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.horizontal)
-                    
+                    if let onBack {
+                        BackButtonView(action: onBack)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.horizontal)
+                    }
+                        
                     
                     Text("What are you open to?")
                         .font(.largeTitle)
@@ -44,9 +49,8 @@ struct OnBoardingTagView: View {
                             ForEach(tagsModel.tags, id: \.title) { tag in
                                 ButtonTagView(
                                     title: tag.title,
-                                    isSelected: selectedTags.contains(tag.title)
-                                )
-                                .onTapGesture {
+                                    isSelected: selectedOpenTo.contains(tag.title)
+                                ) {
                                     toggleSelection(for: tag.title)
                                 }
                             }
@@ -56,24 +60,31 @@ struct OnBoardingTagView: View {
                     
                     Spacer()
                     
-                    
-                    ContinueButtonView()
-                        .padding(.horizontal)
-                        .padding(.bottom, 20)
+                        
+                    ContinueButtonView(title: "Continue  →") {
+                        onNext()
+                    }
+                    .padding(.horizontal)
+                    .padding(.bottom, 20)
+                    .disabled(selectedOpenTo.isEmpty)
                 }
             }
         }
     }
     
     private func toggleSelection(for tag: String) {
-        if selectedTags.contains(tag) {
-            selectedTags.remove(tag)
-        } else if selectedTags.count < 3 {
-            selectedTags.insert(tag)
+        if selectedOpenTo.contains(tag) {
+            selectedOpenTo.removeAll { $0 == tag }
+        } else if selectedOpenTo.count < 3 {
+            selectedOpenTo.append(tag)
         }
     }
 }
 
 #Preview {
-    OnBoardingTagView()
+    OnBoardingTagView(
+        selectedOpenTo: .constant(["Networking"]),
+        onNext: {},
+        onBack: nil
+    )
 }

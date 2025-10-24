@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct BarView: View {
+    
+    @EnvironmentObject var gardenVM: GardenViewModel
+    
     var body: some View {
         ZStack{
             
@@ -18,7 +21,10 @@ struct BarView: View {
                     Text("profile")
                         .font(.title)
                 }.tag(1)
-                EventsView().tabItem {
+                EventsView(
+                    garden: gardenVM.gardens.first ?? Garden(title: "—", date: "—", profiles: [])
+                )
+                .tabItem {
                     Image(systemName: "calendar")
                     Text("Events")
                         .font(.title)
@@ -30,11 +36,16 @@ struct BarView: View {
                 }.tag(3)
                 
             }
+            .task { await gardenVM.load() }
             
         }
     }
 }
 
-#Preview {
-    BarView()
+#Preview("BarView – Store-backed") {
+    let vm = GardenViewModel(store: MockGardenStore())
+    // Preload mock data for the preview
+    Task { await vm.load() }
+    return BarView()
+        .environmentObject(vm)
 }

@@ -37,76 +37,56 @@ struct GardenCardView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            
+
             HStack {
                 Text(garden.title)
-                    .font(.title3)
+                    .font(.title)
                     .fontWeight(.semibold)
 
                 Spacer()
 
-                NavigationLink(destination: GardenNameList()) {
-                    Image(systemName: "arrow.right.circle.fill")
-                        .font(.title2)
-                        .foregroundColor(.accentColor)
+                NavigationLink {
+                    GardenNameList(garden: garden)
+                } label: {
+                    Image(systemName: "arrow.right.circle")
+                        .font(.title)
+                        .foregroundColor(.black)
                 }
                 .buttonStyle(.plain)
             }
-            
+
             Text(garden.date)
-                .font(.footnote)
+                .font(.title2)
                 .fontWeight(.medium)
                 .padding(.vertical, 2)
-            
+
             GeometryReader { geo in
                 ZStack {
-                    // Loop through every profile (icon)
-                    ForEach(Array(garden.profiles.enumerated()), id: \.1.id) { (idx, profile) in
-                        // Uses precomputed positions; if empty, default to center
-                        let pos = positions.count > idx
-                        ? positions[idx]
-                        : CGPoint(x: geo.size.width / 2, y: geo.size.height / 2)
-                        
-                        Button {
-                            // animation
-                            selectedIndex = (selectedIndex == idx ? nil : idx)
-                            // assigns selected profile to trigger the modal
-                            selectedProfile = profile
-                        } label: {
-                            Image(profile.iconName)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 40, height: 40)
-                                .scaleEffect(selectedIndex == idx ? 1.15 : 1.0)
-                        }
-                        .position(pos) // places icon inside the geo area
-                        .animation(.spring(response: 0.4, dampingFraction: 0.85), value: selectedIndex)
-                    }
+                    // NEW: extracted heavy loop to its own view
+                    ProfileIconsView(
+                        profiles: garden.profiles,
+                        positions: positions,
+                        fallbackCenter: CGPoint(x: geo.size.width / 2, y: geo.size.height / 2),
+                        selectedIndex: $selectedIndex,
+                        selectedProfile: $selectedProfile
+                    )
                 }
                 .onAppear { layout(for: geo.size) }
-                .onChange(of: geo.size) { _, newSize in layout(for: newSize) } // keeps it safe if width changes
-                .onChange(of: garden.profiles.count) { _, _ in layout(for: geo.size) } // recompute if the number of icons changes
+                .onChange(of: geo.size) { _, newSize in layout(for: newSize) }
+                .onChange(of: garden.profiles.count) { _, _ in layout(for: geo.size) }
             }
             .frame(height: canvasHeight)
         }
         // modal when clicked
         .sheet(item: $selectedProfile) { profile in
-            ProfileView(
-                    name: profile.prefName,
-                    occupation: "Guerriero Dragon Student",
-                    company: "@Apple Developer Academy",
-                    socialImage: ["instagram", "github"],
-                    openTo: ["Networking", "Collab"],
-                    interestedIn: ["Swift", "SwiftUI"],
-                    workingOn: ["Sprout App"]
-                )
-                .presentationDetents([.medium, .large])
-                .presentationDragIndicator(.visible)
+            ProfileView()
+            .presentationDetents([.medium, .large])
+            .presentationDragIndicator(.visible)
         }
         .padding(16)
         .background(
             RoundedRectangle(cornerRadius: 20)
-                .fill(Color(.secondarySystemBackground))
+                .fill(Color("BrandColor"))
         )
         .overlay(
             RoundedRectangle(cornerRadius: 20)
@@ -220,6 +200,43 @@ struct GardenCardView: View {
     }
 }
 
+#if DEBUG
+private extension Profile {
+    static let p1 = Profile(prefName: "Ana", iconName: "ge1")
+    static let p2 = Profile(prefName: "Shifu", iconName: "ge2")
+    static let p3 = Profile(prefName: "Tigress", iconName: "ge3")
+}
+private extension Garden {
+    static let previewSmall = Garden(
+        title: "Preview Garden",
+        date: "Jan 1, 2025",
+        profiles: [.p1, .p2, .p3, .p1, .p2, .p3]
+    )
+}
+#endif
+
 #Preview {
-    GardenCardView(garden: GardenMocks.gardens.first!)
+    struct GardenCardPreviewHost: View {
+        @StateObject var profileVM = ProfileViewModel(store: LocalJSONProfileStore())
+
+        // Simple sample garden just for the preview
+        private let previewGarden = Garden(
+            title: "Preview Meetup",
+            date: "Jan 12, 2025",
+            profiles: [
+                .init(prefName: "Ana", iconName: "ge1"),
+                .init(prefName: "Shifu", iconName: "ge2"),
+                .init(prefName: "Tigress", iconName: "ge3")
+            ]
+        )
+
+        var body: some View {
+            NavigationStack {
+                GardenCardView(garden: previewGarden)
+                    .padding()
+            }
+            .environmentObject(profileVM)
+        }
+    }
+    return GardenCardPreviewHost()
 }
