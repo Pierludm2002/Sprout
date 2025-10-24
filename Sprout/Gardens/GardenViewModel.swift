@@ -7,12 +7,16 @@
 
 import Foundation
 internal import Combine
+import UIKit
 
 @MainActor
 final class GardenViewModel: ObservableObject {
     @Published var gardens: [Garden] = []
+    @Published var qrImage: UIImage?
+
     private let store: GardenStore
     private var bag = Set<AnyCancellable>()
+    private let qr = QRCodeGenerator()
 
     init(store: GardenStore) {
         self.store = store
@@ -22,11 +26,27 @@ final class GardenViewModel: ObservableObject {
             .store(in: &bag)
     }
 
-    func load() {
-        Task { await store.load() }
+
+    private struct SharePayload: Codable {
+        let id: String
+        let title: String
+        let date: String
     }
 
-    // UI helpers
+    func buildQR(for garden: Garden) {
+        let payload = SharePayload(
+            id: garden.id.uuidString,
+            title: garden.title,
+            date: garden.date
+        )
+        let data = (try? JSONEncoder().encode(payload)) ?? Data(garden.title.utf8)
+        let string = String(data: data, encoding: .utf8) ?? garden.title
+        qrImage = qr.make(from: string)
+    }
+
+    func load() {
+        Task { await store.load() }    }
+
     func addGarden(title: String, date: String, profiles: [Profile]) {
         Task { try? await store.add(Garden(title: title, date: date, profiles: profiles)) }
     }

@@ -7,6 +7,7 @@ struct GardenListView: View {
     @EnvironmentObject private var gardenVM: GardenViewModel
 
     var body: some View {
+        
         NavigationStack {
             Group {
                 if gardenVM.gardens.isEmpty {
@@ -48,6 +49,7 @@ struct GardenListView: View {
             .navigationBarTitleDisplayMode(.large)
         }
         .task { await gardenVM.load() }
+        
     }
 }
 
