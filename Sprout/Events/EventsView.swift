@@ -9,16 +9,16 @@ import SwiftUI
 
 struct EventsView: View {
     
-    let gardens = GardenMocks.gardens
+    let garden: Garden
     
     var body: some View {
         VStack {
             VStack(spacing: 12) {
-                Text(gardens[0].title)
+                Text(garden.title)
                     .font(AppStyles.TextStyle.pageTitle)
                     .frame(maxWidth: .infinity, alignment: .center)
                 
-                TagView(title: gardens[0].date)
+                TagView(title: garden.date)
                     .frame(maxWidth: .infinity, alignment: .center)
                 
                 Text("Participants")
@@ -29,7 +29,7 @@ struct EventsView: View {
                 Divider()
                 
                 VStack(spacing: 8) {
-                    List(gardens[0].profiles) { profile in
+                    List(garden.profiles) { profile in
                         Button{
                             print("Profilo \(profile.prefName)")
                         } label: {
@@ -63,6 +63,15 @@ struct EventsView: View {
     }
 }
 
-#Preview {
-    EventsView()
+#Preview("Event – Preview Data") {
+    // Minimal inline preview data so this file previews by itself
+    let sampleProfiles = [
+        Profile(prefName: "Ana", iconName: "ge1"),
+        Profile(prefName: "Shifu", iconName: "ge2"),
+        Profile(prefName: "Tigress", iconName: "ge3")
+    ]
+    let sampleGarden = Garden(title: "Preview Garden", date: "Jan 1, 2025", profiles: sampleProfiles)
+    return NavigationStack {
+        EventsView(garden: sampleGarden)
+    }
 }

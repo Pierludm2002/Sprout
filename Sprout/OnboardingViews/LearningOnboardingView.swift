@@ -20,9 +20,11 @@ struct LearningOnboardingView: View {
                 
                 VStack(spacing: 20) {
                     
-                    BackButtonView()
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.horizontal)
+                    if let onBack {
+                        BackButtonView(action: onBack)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.horizontal)
+                    }
                     
                     
                     Text("What are you currently learning?")
@@ -57,9 +59,11 @@ struct LearningOnboardingView: View {
                     Spacer()
                     
                     
-                    ContinueButtonView()
-                        .padding(.horizontal)
-                        .padding(.bottom, 20)
+                    ContinueButtonView(title: "Continue  →") {
+                      //  onNext() 
+                    }
+                    .padding(.horizontal)
+                    .padding(.bottom, 20)
                 }
             }
         }
@@ -78,3 +82,4 @@ struct LearningOnboardingView: View {
 #Preview {
     LearningOnboardingView()
 }
+*/

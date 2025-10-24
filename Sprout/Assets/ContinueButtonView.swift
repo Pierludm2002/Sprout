@@ -7,32 +7,30 @@
 
 import SwiftUI
 
-var title = "Continue                                              →"
-var action : () -> Void = { }
-var isPressed = false
-
 struct ContinueButtonView: View {
+    let title: String
+    let action: () -> Void
+
     var body: some View {
-        
         Button(action: action) {
-            
             Text(title)
-                .padding(.horizontal, 20)
-                .padding(.vertical, 8)
+                .font(.headline)
                 .foregroundColor(.black)
                 .frame(width: 325, height: 60, alignment: .leading)
-                .cornerRadius(18)
+                .padding(.horizontal, 20)
                 .background(
                     RoundedRectangle(cornerRadius: 18)
                         .foregroundStyle(Color(red: 0.93, green: 1.00, blue: 0.53))
-                        .frame(width: 325, height: 60)
-                    )
-            
-        
+                )
+                .clipShape(RoundedRectangle(cornerRadius: 18))
         }
+        .buttonStyle(.plain)
+        .contentShape(RoundedRectangle(cornerRadius: 18))
+        .accessibilityLabel(title)
     }
 }
 
 #Preview {
-    ContinueButtonView()
+    ContinueButtonView(title: "Continue  →") { }
+        .padding()
 }

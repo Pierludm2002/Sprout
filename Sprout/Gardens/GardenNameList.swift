@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct GardenNameList: View {
-    let garden = GardenMocks.gardens.first!
+    let garden: Garden
     @State private var searchText = ""
 
     var filteredProfiles: [Profile] {
@@ -20,6 +20,7 @@ struct GardenNameList: View {
     }
 
     var body: some View {
+        
         NavigationStack {
             List {
                 ForEach(filteredProfiles) { profile in
@@ -52,6 +53,21 @@ struct GardenNameList: View {
     }
 }
 
-#Preview {
-    GardenNameList()
+#if DEBUG
+extension GardenViewModel {
+    static func preview() -> GardenViewModel {
+        let vm = GardenViewModel(store: MockGardenStore())
+        Task { await vm.load() }
+        return vm
+    }
+}
+#endif
+
+#Preview("Names List") {
+    NavigationStack {
+        let vm = GardenViewModel.preview()
+        GardenNameList(
+            garden: vm.gardens.first ?? Garden(title: "Preview Garden", date: "Jan 1, 2025", profiles: [])
+        )
+    }
 }

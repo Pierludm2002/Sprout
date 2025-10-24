@@ -8,18 +8,22 @@
 import SwiftUI
 
 struct BackButtonView: View {
-    let action : () -> Void = { }
+    let action: () -> Void
+
     var body: some View {
-        Button(action: action){
+        Button(action: action) {
             Text("←")
                 .fontWeight(.thin)
                 .foregroundStyle(.black)
-            
+                .padding(8)
         }
-
-            }
+        .buttonStyle(.plain)
+        .contentShape(Rectangle())
+        .accessibilityLabel("Back")
+    }
 }
 
 #Preview {
-    BackButtonView()
+    BackButtonView { }
+        .padding()
 }
