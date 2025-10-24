@@ -30,14 +30,15 @@ struct PersonalQRView: View {
                     
                     
                 }
+                Spacer() // pushes top
                 
-                HStack {
+                VStack {
                     
                     ScanButtonView()
-                }
+                    
+                }.padding(.bottom, 50)
             }
             
-            Spacer() // pushes top
         }
     }
 }
