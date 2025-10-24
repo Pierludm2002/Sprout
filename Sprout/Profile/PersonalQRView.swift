@@ -9,7 +9,36 @@ import SwiftUI
 
 struct PersonalQRView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ZStack {
+            GreenBackgroundView()
+                .ignoresSafeArea()
+            
+            VStack {
+                
+                HStack {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Connect with me!")
+                            .font(AppStyles.TextStyle.pageTitle)
+                        
+                        Text("Share your profile to grow your garden!🌱")
+                            .fontWeight(.thin)
+                    }
+                    .padding(.top, 50)
+                    .padding(.leading, 20)
+                    
+                    Spacer() // push left
+                    
+                    
+                }
+                
+                HStack {
+                    
+                    ScanButtonView()
+                }
+            }
+            
+            Spacer() // pushes top
+        }
     }
 }
 
