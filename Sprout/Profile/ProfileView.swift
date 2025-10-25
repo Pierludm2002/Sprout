@@ -28,7 +28,7 @@ struct ProfileView: View {
         ScrollView{
             VStack(spacing: 5) {
                 HStack{
-                    Image(p.iconName) // use the saved profile's icon
+                    Image("DefaultProfilePic") // used the defalt one for demo 
                         .resizable()
                         .scaledToFit()
                         .clipShape(RoundedRectangle(cornerRadius: 16))
@@ -45,28 +45,26 @@ struct ProfileView: View {
                         
                         HStack{
                             Text(p.occupation)
-                                .font(AppStyles.TextStyle.secInfos)
-                                .foregroundColor(AppStyles.ColorStyle.secondary)
+                                .font(.title3)
+                                .foregroundColor(.black)
                             Text(p.company)
-                                .font(AppStyles.TextStyle.highlight)
+                                .font(.title3)
+                                .foregroundColor(.black)
+
                             
                         }
-                        HStack{
-                            ForEach(p.socialImage, id: \.self) { iconName in
-                                Image(iconName)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 30, height: 30)
-                                    .padding(.trailing, 8)
-                            }
-                            Spacer()
-                        }.padding(.top,5).padding(.bottom, 5)
                     }
                 }
                 Divider()
+                .padding(.vertical, 20)
+
+
                 
                 VStack{
+                    
+
                     HStack{
+                        
                         Text("Open To").font(AppStyles.TextStyle.subtitle)
                             Spacer()
                     }
@@ -81,7 +79,7 @@ struct ProfileView: View {
                             }
                         }
                     }
-                    Divider()
+      
                     HStack{
                         Text("Interested In").font(AppStyles.TextStyle.subtitle)
                         Spacer()
@@ -97,7 +95,7 @@ struct ProfileView: View {
                             }
                         }
                     }
-                    Divider()
+      
                     HStack{
                         Text("Working on").font(AppStyles.TextStyle.subtitle)
                         Spacer()
