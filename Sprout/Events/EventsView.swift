@@ -63,8 +63,7 @@ struct EventsView: View {
     }
 }
 
-#Preview("Event – Preview Data") {
-    // Minimal inline preview data so this file previews by itself
+#Preview {
     let sampleProfiles = [
         Profile(prefName: "Ana", iconName: "ge1"),
         Profile(prefName: "Shifu", iconName: "ge2"),

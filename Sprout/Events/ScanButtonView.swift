@@ -10,6 +10,7 @@ import SwiftUI
 struct ScanButtonView: View {
     @State private var showScanner = false
     @State private var scannedCode: String = ""
+    @State private var showCameraDeniedAlert = false
     
     var body: some View {
         VStack(spacing: 20) {
@@ -37,9 +38,18 @@ struct ScanButtonView: View {
                 scannedCode = code
                 showScanner = false
             }
+            .alert("Camera Access Needed",
+                          isPresented: $showCameraDeniedAlert) {
+                       Button("OK", role: .cancel) {}
+                   } message: {
+                       Text("Enable camera access in Settings → Sprout → Camera to scan QR codes.")
+                   }
         }
+    
     }
 }
+
+
 #Preview {
     ScanButtonView()
 }

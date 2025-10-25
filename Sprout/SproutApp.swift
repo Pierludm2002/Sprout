@@ -32,15 +32,15 @@ struct RootSwitcherView: View {
             if done {
                 BarView()
                     .task {
-                        await profileVM.load()
-                        await gardenVM.load()
+                        profileVM.load()
+                        gardenVM.load()
                     }
             } else {
                 OnboardingCoordinatorView {
                     done = true
                 }
                 .task {
-                    await profileVM.load()
+                    profileVM.load()
                 }
             }
         }

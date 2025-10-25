@@ -11,13 +11,13 @@
         }
       },
       "idiom" : "universal"
-    },
-    {
-      "idiom" : "universal"
     }
   ],
   "info" : {
     "author" : "xcode",
     "version" : 1
+  },
+  "properties" : {
+    "localizable" : true
   }
 }
