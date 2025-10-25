@@ -39,5 +39,4 @@ struct ButtonTagView: View {
 #Preview {
     ButtonTagView(title: "Cool things", isSelected: false) { }
         .padding()
-        .previewLayout(.sizeThatFits)
 }

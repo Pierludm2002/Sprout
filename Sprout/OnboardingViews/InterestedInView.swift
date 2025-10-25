@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+/*
 struct InterestedInView: View {
 
      @StateObject private var interestModel = TagsInterestedIn()
@@ -76,5 +76,5 @@ struct InterestedInView: View {
      onBack: {}
      )
      }
-
+*/
     

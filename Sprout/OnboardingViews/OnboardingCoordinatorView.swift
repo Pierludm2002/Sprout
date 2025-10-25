@@ -57,7 +57,7 @@ struct OnboardingCoordinatorView: View {
             iconName: "DefautProfilePic"
         )
 
-        // publish + persist via VM (don’t create a new store here)
+        // publish + persist via VM
         profileVM.saveChanges(profile)
 
         // tell RootSwitcherView to move to the main app

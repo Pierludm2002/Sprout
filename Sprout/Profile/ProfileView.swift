@@ -5,6 +5,13 @@
 //  Created by Pierluigi De Meo on 18/10/25.
 //
 
+//
+//  ProfileView.swift
+//  Sprout
+//
+//  Created by Pierluigi De Meo on 18/10/25.
+//
+
 import SwiftUI
 
 struct ProfileView: View {
@@ -12,6 +19,7 @@ struct ProfileView: View {
     @EnvironmentObject var profileVM: ProfileViewModel
     
     @State private var selectedTags: Set<String> = []
+    @State private var showQR = false
     
     var body: some View {
         
@@ -111,17 +119,50 @@ struct ProfileView: View {
             }.padding(.horizontal, 30)
         }
         .backgroundView()
-        .onChange(of: profileVM.profile) { newValue in
-            print("Profile:")
-            print("Name: \(newValue.prefName)")
-            print("Occupation: \(newValue.occupation)")
-            print("Company: \(newValue.company)")
-            print("Open To: \(newValue.openTo)")
-            print("Interested In: \(newValue.interestedIn)")
-            print("Working On: \(newValue.workingOn)")
+                .onChange(of: profileVM.profile) { newValue in
+                    print("Profile:")
+                    print("Name: \(newValue.prefName)")
+                    print("Occupation: \(newValue.occupation)")
+                    print("Company: \(newValue.company)")
+                    print("Open To: \(newValue.openTo)")
+                    print("Interested In: \(newValue.interestedIn)")
+                    print("Working On: \(newValue.workingOn)")
+                }
+
+                #if DEBUG
+                .toolbar {
+                    ToolbarItem(placement: .primaryAction) {
+                        Button {
+                            profileVM.buildQR()
+                            showQR = true
+                        } label: {
+                            Image(systemName: "qrcode")
+                        }
+                    }
+                }
+                .sheet(isPresented: $showQR) {
+                    VStack(spacing: 20) {
+                        if let img = profileVM.qrImage {
+                            Image(uiImage: img)
+                                .interpolation(.none)
+                                .resizable()
+                                .frame(width: 260, height: 260)
+                                .background(.white)
+                                .clipShape(RoundedRectangle(cornerRadius: 16))
+                                .shadow(radius: 8)
+                        } else {
+                            ProgressView().task { profileVM.buildQR() }
+                        }
+                        Text("Scan to add \(profileVM.profile.prefName)")
+                            .font(.headline)
+                            .foregroundStyle(.secondary)
+                        Button("Close") { showQR = false }
+                    }
+                    .padding()
+                }
+                #endif
+            }
         }
-    }
-}
 
 #Preview {
     let vm = ProfileViewModel(store: LocalJSONProfileStore())
@@ -133,7 +174,7 @@ struct ProfileView: View {
         openTo: ["Networking", "Collab"],
         interestedIn: ["Swift", "SwiftUI"],
         workingOn: ["Sprout"],
-        iconName: "ge1"
+        iconName: "DefaultProfilePic"
     )
     return NavigationStack {
         ProfileView()
