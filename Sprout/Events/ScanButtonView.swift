@@ -31,20 +31,13 @@ struct ScanButtonView: View {
                         .background(Color.gray.opacity(0.2))
                         .cornerRadius(8)
                 }
-
-              
-                NavigationLink(
-                    destination: QRScannerView { code in
-                        scannedCode = code
-                        navigateToScanner = false // Go back after scan
-                    },
-                    isActive: $navigateToScanner
-                ) {
-                    EmptyView()
-                }
-                .hidden()
             }
-            .navigationTitle("QR Scanner Demo")
+            .navigationDestination(isPresented: $navigateToScanner) {
+                QRScannerView { code in
+                    scannedCode = code
+                    navigateToScanner = false
+                }
+            }
             .navigationBarTitleDisplayMode(.inline)
         }
     }

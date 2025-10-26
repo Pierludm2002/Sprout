@@ -21,8 +21,7 @@ struct BarView: View {
                     Text("Profile")
                         .font(.title)
                 }.tag(1)
-                PersonalQRView()
-                .tabItem {
+                ConnectCoordinatorView().tabItem {
                     Image(systemName: "qrcode")
                     Text("Connect")
                         .font(.title)

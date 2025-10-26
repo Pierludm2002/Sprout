@@ -119,14 +119,14 @@ struct ProfileView: View {
             }.padding(.horizontal, 30)
         }
         .backgroundView()
-                .onChange(of: profileVM.profile) { newValue in
+                .onChange(of: profileVM.profile) {
                     print("Profile:")
-                    print("Name: \(newValue.prefName)")
-                    print("Occupation: \(newValue.occupation)")
-                    print("Company: \(newValue.company)")
-                    print("Open To: \(newValue.openTo)")
-                    print("Interested In: \(newValue.interestedIn)")
-                    print("Working On: \(newValue.workingOn)")
+                    print("Name: \(p.prefName)")
+                    print("Occupation: \(p.occupation)")
+                    print("Company: \(p.company)")
+                    print("Open To: \(p.openTo)")
+                    print("Interested In: \(p.interestedIn)")
+                    print("Working On: \(p.workingOn)")
                 }
 
                 #if DEBUG

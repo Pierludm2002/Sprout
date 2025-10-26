@@ -100,9 +100,9 @@ final class MockGardenStore: GardenStore {
             .init(prefName: "Mantis", iconName: "ge6"),
         ]
         subject.send([
-            Garden(title: "Kungfu Meetup", date: "Jan 12, 2025", profiles: profiles),
+            Garden(title: "Daiquiri Challenge", date: "Jan 12, 2025", profiles: profiles),
             Garden(title: "WWDC 2025",     date: "Mar 17, 2025", profiles: profiles),
-            Garden(title: "Codecon Italy", date: "Apr 25, 2025", profiles: profiles)
+            Garden(title: "iOS Meetup Italy", date: "Apr 25, 2025", profiles: profiles)
         ])
     }
 
