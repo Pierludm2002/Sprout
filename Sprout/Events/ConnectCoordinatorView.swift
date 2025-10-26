@@ -11,10 +11,12 @@ struct ConnectCoordinatorView: View {
     enum Tab: String, CaseIterable {
         case connect = "Connect"
         case join = "Join Event"
-        // case create = "Create Event"
+        case create = "Create Event"
     }
 
     @State private var selectedTab: Tab = .connect
+    @EnvironmentObject private var gardenVM: GardenViewModel
+    @State private var draftGardenName: String = ""
 
     var body: some View {
         VStack(spacing: 20) {
@@ -26,15 +28,14 @@ struct ConnectCoordinatorView: View {
             .pickerStyle(.segmented)
             .padding(.horizontal)
 
-            // Content switches depending on tab
             Group {
                 switch selectedTab {
                 case .connect:
                     PersonalQRView()
                 case .join:
                     JoinEventView()
-                //case .create:
-                  //  CreateEventView()
+                case .create:
+                    CreateGardenView()
                 }
             }
             .animation(.easeInOut, value: selectedTab)

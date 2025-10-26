@@ -32,7 +32,7 @@ struct JoinEventView: View {
                     showScanner = true
                 } label: {
                     Label("Scan QR Code", systemImage: "qrcode.viewfinder")
-                        .fontWeight(.medium)
+                        .fontWeight(.ultraLight)
                         .foregroundColor(.black)
                         .padding()
                         .frame(maxWidth: 250)

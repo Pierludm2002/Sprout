@@ -62,7 +62,6 @@ struct GardenCardView: View {
 
             GeometryReader { geo in
                 ZStack {
-                    // NEW: extracted heavy loop to its own view
                     ProfileIconsView(
                         profiles: garden.profiles,
                         positions: positions,

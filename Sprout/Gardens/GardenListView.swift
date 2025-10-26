@@ -48,7 +48,12 @@ struct GardenListView: View {
             .navigationTitle("My Gardens")
             .navigationBarTitleDisplayMode(.large)
         }
-        .task { gardenVM.load() }
+        .task {
+            await gardenVM.load()
+            gardenVM.gardens.sort {
+                $0.date > $1.date
+            }
+        }
         
     }
 }
@@ -65,7 +70,7 @@ struct GardenListView: View {
                     .environmentObject(profileVM)
             }
             .task {
-                gardenVM.load()
+                await gardenVM.load()
                 profileVM.load()
             }
         }

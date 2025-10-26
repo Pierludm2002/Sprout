@@ -11,7 +11,6 @@ internal import Combine
 protocol GardenStore {
     var gardensPublisher: AnyPublisher<[Garden], Never> { get }
     func load() async
-    // simple CRUD
     func add(_ garden: Garden) async throws
     func update(_ garden: Garden) async throws
     func delete(id: UUID) async throws

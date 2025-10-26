@@ -24,7 +24,6 @@ struct ProfileView: View {
                         .resizable()
                         .scaledToFit()
                         .clipShape(RoundedRectangle(cornerRadius: 16))
-                        .shadow(radius: 5)
                         .padding(40)
                     Spacer()
                 }
@@ -39,7 +38,7 @@ struct ProfileView: View {
                             Text(p.occupation)
                                 .font(.title3)
                                 .foregroundColor(.black)
-                            Text(p.company)
+                            Text("@" + p.company)
                                 .font(.title3)
                                 .foregroundColor(.black)
 
@@ -57,7 +56,7 @@ struct ProfileView: View {
 
                     HStack{
                         
-                        Text("Open To").font(AppStyles.TextStyle.subtitle)
+                        Text("Open to").font(AppStyles.TextStyle.subtitle)
                             Spacer()
                     }
                     FlowLayout(spacing: 8, alignment: .leading) {
@@ -73,7 +72,7 @@ struct ProfileView: View {
                     }
       
                     HStack{
-                        Text("Interested In").font(AppStyles.TextStyle.subtitle)
+                        Text("Interested in").font(AppStyles.TextStyle.subtitle)
                         Spacer()
                     }
                     FlowLayout(spacing: 8, alignment: .leading) {
@@ -128,7 +127,7 @@ struct ProfileView: View {
     vm.profile = Profile(
         prefName: "AnaK",
         occupation: "Student",
-        company: "@Apple Developer Academy",
+        company: "Apple Developer Academy",
         socialImage: ["instagram", "github"],
         openTo: ["Networking", "Collab"],
         interestedIn: ["Swift", "SwiftUI"],

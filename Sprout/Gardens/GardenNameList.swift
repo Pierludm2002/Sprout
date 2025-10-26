@@ -57,7 +57,7 @@ struct GardenNameList: View {
 extension GardenViewModel {
     static func preview() -> GardenViewModel {
         let vm = GardenViewModel(store: MockGardenStore())
-        Task { vm.load() }
+        Task { await vm.load() }
         return vm
     }
 }

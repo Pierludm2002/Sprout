@@ -33,7 +33,7 @@ struct RootSwitcherView: View {
                 BarView()
                     .task {
                         profileVM.load()
-                        gardenVM.load()
+                        await gardenVM.load()
                     }
             } else {
                 OnboardingCoordinatorView {
