@@ -80,4 +80,3 @@ struct PhotoOnboardingView: View {
     PhotoOnboardingView(onNext: {},
                         onBack: nil)
 }
-

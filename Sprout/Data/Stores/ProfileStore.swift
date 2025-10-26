@@ -32,7 +32,7 @@ final class LocalJSONProfileStore: ProfileStore {
            let p = try? JSONDecoder().decode(Profile.self, from: data) {
             subject.send(p)
         } else {
-            subject.send(nil) // onboarding 
+            subject.send(nil) // onboarding
         }
     }
 
