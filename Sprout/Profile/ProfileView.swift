@@ -42,9 +42,14 @@ struct ProfileView: View {
                             Text(p.company)
                                 .font(.title3)
                                 .foregroundColor(.black)
+                            Spacer()
+                            
+                            
+                            
 
                             
                         }
+                        SocialLinkButtonView()
                     }
                 }
                 Divider()
