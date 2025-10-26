@@ -1,0 +1,9 @@
+**/xcuserdata/
+*.xcuserstate
+*.xccheckout
+*.xcscmblueprint
+DerivedData/
+build/
+.DS_Store
+*.ipa
+*.dSYM

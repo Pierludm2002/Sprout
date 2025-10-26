@@ -23,7 +23,7 @@ struct SproutApp: App {
 
 
 struct RootSwitcherView: View {
-    @AppStorage("hasCompletedOnboarding") private var done = false
+    @AppStorage("hasCompletedOnboarding") private var done = false //TODO: Change to false
     @EnvironmentObject private var profileVM: ProfileViewModel
     @EnvironmentObject private var gardenVM: GardenViewModel
 

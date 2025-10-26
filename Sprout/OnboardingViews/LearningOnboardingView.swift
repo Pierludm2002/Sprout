@@ -5,14 +5,16 @@
 //  Created by Eleonora Persico on 21/10/25.
 //
 
-/*
 import SwiftUI
 import SwiftData
 
 struct LearningOnboardingView: View {
     
-@State private var learningModel = LearningTags()
-    @State private var selectedTags: Set<String> = []
+    @State private var learningModel = LearningTags()
+    @Binding var selectedTags: [String]
+    
+    let onNext: () -> Void
+    let onBack: (() -> Void)?
     
     var body: some View {
         NavigationStack {
@@ -47,9 +49,8 @@ struct LearningOnboardingView: View {
                             ForEach(learningModel.learning, id: \.title) { tag in
                                 ButtonTagView(
                                     title: tag.title,
-                                    isSelected: selectedTags.contains(tag.title)
-                                )
-                                .onTapGesture {
+                                    isSelected: selectedTags.contains(tag.title),
+                                ){
                                     toggleSelection(for: tag.title)
                                 }
                             }
@@ -61,10 +62,11 @@ struct LearningOnboardingView: View {
                     
                     
                     ContinueButtonView(title: "Continue  →") {
-                      //  onNext() 
+                      onNext() 
                     }
                     .padding(.horizontal)
                     .padding(.bottom, 20)
+                    .disabled(selectedTags.isEmpty)
                 }
             }
         }
@@ -72,15 +74,20 @@ struct LearningOnboardingView: View {
     
     private func toggleSelection(for tag: String) {
         if selectedTags.contains(tag) {
-            selectedTags.remove(tag)
+            selectedTags.removeAll() {$0 == tag}
         } else if selectedTags.count < 3 {
-            selectedTags.insert(tag)
+            selectedTags.append(tag)
         }
     }
 }
 
 
 #Preview {
-    LearningOnboardingView()
+    LearningOnboardingView (
+        selectedTags: .constant(["Swift"]),
+        onNext: {},
+        onBack: {}
+    )
+
 }
-*/
+

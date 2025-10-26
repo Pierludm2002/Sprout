@@ -28,7 +28,7 @@ struct ProfileView: View {
         ScrollView{
             VStack(spacing: 5) {
                 HStack{
-                    Image("DefaultProfilePic") // used the defalt one for demo 
+                    Image("DefaultProfilePic") // used the defalt one for demo
                         .resizable()
                         .scaledToFit()
                         .clipShape(RoundedRectangle(cornerRadius: 16))

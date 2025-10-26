@@ -18,13 +18,12 @@ struct TagView: View {
             .font(.system(size: 16))
             .padding(.horizontal, 16)
             .padding(.vertical, 10)
-            .background(Color.white)
+            .background(Color.clear)
             .foregroundColor(.primary)
             .cornerRadius(16)
             .overlay(
                 RoundedRectangle(cornerRadius: 16)
                     .stroke(Color.black.opacity(0.3), lineWidth: 0.5)
-                    .foregroundStyle(Color.white)
             )
     }
 }

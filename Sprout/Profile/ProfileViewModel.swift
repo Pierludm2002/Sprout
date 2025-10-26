@@ -59,6 +59,10 @@ final class ProfileViewModel: ObservableObject {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in self?.profile = $0 }
             .store(in: &bag)
+        
+        Task{
+            await store.load()
+        }
     }
 
     func load() {
@@ -71,9 +75,14 @@ final class ProfileViewModel: ObservableObject {
         Task {
             do {
                 try await store.save(draft)
-                isEditing = false
+                await MainActor.run {
+                                self.profile = draft
+                                self.isEditing = false
+                            }
             } catch {
-                errorMessage = "Could not save profile."
+                await MainActor.run {
+                    self.errorMessage = "Could not save profile."
+                }
             }
         }
     }
