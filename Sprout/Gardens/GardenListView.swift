@@ -7,7 +7,7 @@ struct GardenListView: View {
     @EnvironmentObject private var gardenVM: GardenViewModel
 
     var body: some View {
-        NavigationStack {
+            NavigationStack {
             Group {
                 if gardenVM.gardens.isEmpty {
                     VStack(spacing: 12) {

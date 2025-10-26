@@ -21,14 +21,10 @@ struct BarView: View {
                     Text("profile")
                         .font(.title)
                 }.tag(1)
-                EventsView(
-                    garden: gardenVM.gardens.first ?? Garden(title: "—", date: "—", profiles: [])
-                )
-                .tabItem {
-                    Image(systemName: "calendar")
-                    Text("Events")
-                        .font(.title)
-                }.tag(2)
+                
+                //TODO: add QrCode scan page
+                
+                
                 GardenListView().tabItem {
                     Image(systemName: "leaf.fill")
                     Text("Gardens")

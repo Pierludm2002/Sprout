@@ -17,6 +17,7 @@ struct Profile: Identifiable, Codable, Equatable {
     var interestedIn: [String]
     var workingOn: [String]
     var iconName: String // garden element
+    
 
     init(
         id: UUID = UUID(),
