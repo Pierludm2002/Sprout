@@ -21,12 +21,14 @@ struct BarView: View {
                     Text("Profile")
                         .font(.title)
                 }.tag(1)
-                PersonalQRView()
-                .tabItem {
+                
+                ConnectCoordinatorView().tabItem {
                     Image(systemName: "qrcode")
                     Text("Connect")
                         .font(.title)
-                }.tag(2)
+                }.tag(3)
+                
+                
                 GardenListView().tabItem {
                     Image(systemName: "leaf.fill")
                     Text("Gardens")
@@ -34,15 +36,16 @@ struct BarView: View {
                 }.tag(3)
                 
             }
-            .task { gardenVM.load() }
+            .task { await gardenVM.load() }
             
         }
     }
 }
 
-#Preview {
+#Preview("BarView – Store-backed") {
     let vm = GardenViewModel(store: MockGardenStore())
-    Task { vm.load() }
+    // Preload mock data for the preview
+    Task { await vm.load() }
     return BarView()
         .environmentObject(vm)
 }

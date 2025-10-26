@@ -37,6 +37,7 @@ struct ScanButtonView: View {
                     scannedCode = code
                     showScanner = false
                 }
+                .navigationTitle("Scan QR Code")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
@@ -50,10 +51,10 @@ struct ScanButtonView: View {
     }
 }
 
-
 #Preview {
     ScanButtonView()
 }
+
 
 /*
 

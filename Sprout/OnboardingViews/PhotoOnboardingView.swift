@@ -14,6 +14,9 @@ struct PhotoOnboardingView: View {
     @State private var selectedItem: PhotosPickerItem?
     @State private var selectedImage: Image?
     
+    let onNext: () -> Void
+    let onBack: (() -> Void)?
+    
     var body: some View {
         ZStack {
             GreenBackgroundView()
@@ -47,10 +50,13 @@ struct PhotoOnboardingView: View {
                         AddPhotoButtonView()
                     }
                 }
+                
+                Spacer()
+                
                 VStack {
                     
                     ContinueButtonView(title: "Continue  →") {
-                       // onNext()
+                       onNext()
                     }
                 }
                 
@@ -71,5 +77,6 @@ struct PhotoOnboardingView: View {
 
 
 #Preview {
-    PhotoOnboardingView()
+    PhotoOnboardingView(onNext: {},
+                        onBack: nil)
 }
