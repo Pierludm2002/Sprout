@@ -12,7 +12,7 @@ struct GreenBackgroundView: View {
         
         LinearGradient(
             gradient: Gradient(colors: [
-                Color(red: 0.76, green: 0.88, blue: 0.77),
+                Color("BrandColor"),
                 Color(.white)
             ]), startPoint: .top,
             endPoint: .bottom

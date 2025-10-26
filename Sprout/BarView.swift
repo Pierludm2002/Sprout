@@ -18,11 +18,15 @@ struct BarView: View {
             TabView() {
                 ProfileView().tabItem {
                     Image(systemName: "person")
-                    Text("profile")
+                    Text("Profile")
                         .font(.title)
                 }.tag(1)
                 
-                //TODO: add QrCode scan page
+                ConnectCoordinatorView().tabItem {
+                    Image(systemName: "qrcode")
+                    Text("Connect")
+                        .font(.title)
+                }.tag(3)
                 
                 
                 GardenListView().tabItem {
