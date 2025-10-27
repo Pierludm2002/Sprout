@@ -22,7 +22,7 @@ struct ButtonTagView: View {
                 .foregroundColor(isSelected ? .black : .primary)
                 .background(
                     RoundedRectangle(cornerRadius: 16)
-                        .fill(isSelected ? Color.gray.opacity(0.10) : Color.clear)
+                        .fill(isSelected ? Color.greyish : Color.clear)
                 )
                 .overlay(
                     RoundedRectangle(cornerRadius: 16)

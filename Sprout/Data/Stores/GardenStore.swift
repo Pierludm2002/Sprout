@@ -155,7 +155,7 @@ final class MockGardenStore: GardenStore {
         let gardens: [Garden] = [
             Garden(title: "Daiquiri Challenge", date: "Jan 12, 2025", profiles: Array(base.prefix(3))),
             Garden(title: "WWDC 2025", date: "Jun 10, 2025", profiles: Array(base.prefix(6))),
-            Garden(title: "iOS Meetup Italy", date: "Apr 25, 2025", profiles: Array(base.prefix(5))),
+            Garden(title: "iOS Meetup Italy", date: "Apr 25, 2024", profiles: Array(base.prefix(5))),
             Garden(title: "Naples iOS Lab",date: "Nov 2, 2025",  profiles: base)
         ]
         

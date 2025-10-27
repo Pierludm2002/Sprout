@@ -55,6 +55,9 @@ struct OnboardingCoordinatorView: View {
                 
             case .done:
                 ProfileView()
+                    .onAppear {
+                        onDone()
+                    }
             }
         }
         .toolbar {
@@ -100,7 +103,7 @@ struct OnboardingCoordinatorView: View {
     }
 }
 #Preview {
-
+    
     let vm = ProfileViewModel(store: LocalJSONProfileStore())
     return OnboardingCoordinatorView(onDone: {})
         .environmentObject(vm)

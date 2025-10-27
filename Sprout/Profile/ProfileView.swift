@@ -35,7 +35,7 @@ struct ProfileView: View {
 
                         VStack(alignment: .leading, spacing: 4) {
                             Text(profileVM.profile.prefName)
-                                .font(.system(size: 36, weight: .bold))
+                                .font(AppStyles.TextStyle.pageTitle)
                                 .foregroundColor(.black)
                             
                             HStack(spacing: 4) {
@@ -165,7 +165,6 @@ struct OtherProfileView: View {
                         .padding(.top, 20)
                         .padding(.bottom, 32)
                         
-                        // Content sections
                         VStack(spacing: 28) {
                             if !profile.openTo.isEmpty {
                                 ProfileSectionCard(
