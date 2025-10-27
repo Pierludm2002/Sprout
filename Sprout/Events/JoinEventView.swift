@@ -8,8 +8,12 @@
 import SwiftUI
 
 struct JoinEventView: View {
+    @EnvironmentObject var gardenVM: GardenViewModel
+    @EnvironmentObject var profileVM: ProfileViewModel
+    
     @State private var showScanner = false
-    @State private var scannedCode = ""
+    @State private var scanResult: ScanResult?
+    @State private var showResult = false
     
     var body: some View {
         ZStack {
@@ -32,29 +36,42 @@ struct JoinEventView: View {
                 
                 Spacer()
                 
-                // Success message if scanned
-                if !scannedCode.isEmpty {
-                    VStack(spacing: 12) {
+                // Show active event if joined
+                if let activeId = gardenVM.activeEventId,
+                   let activeGarden = gardenVM.gardens.first(where: { $0.id == activeId }) {
+                    VStack(spacing: 16) {
                         Image(systemName: "checkmark.circle.fill")
                             .font(.system(size: 60))
                             .foregroundColor(.green)
                         
-                        Text("Joined Event!")
-                            .font(.system(size: 24, weight: .semibold))
+                        Text("Active Event")
+                            .font(.system(size: 20, weight: .semibold))
                             .foregroundColor(.black)
                         
-                        Text(scannedCode)
+                        Text(activeGarden.title)
+                            .font(.system(size: 24, weight: .bold))
+                            .foregroundColor(.black)
+                        
+                        Text(activeGarden.date)
                             .font(.system(size: 16, weight: .regular))
                             .foregroundColor(.gray)
-                            .multilineTextAlignment(.center)
-                            .padding(.horizontal, 28)
+                        
+                        Button("Leave Event") {
+                            gardenVM.leaveEvent()
+                        }
+                        .foregroundColor(.red)
+                        .padding(.top, 8)
                     }
-                    .transition(.scale.combined(with: .opacity))
+                    .padding()
+                    .background(
+                        RoundedRectangle(cornerRadius: 16)
+                            .fill(Color.white.opacity(0.5))
+                    )
+                    .padding(.horizontal, 28)
                 }
                 
                 Spacer()
                 
-                // Scan button
                 Button {
                     showScanner = true
                 } label: {
@@ -79,10 +96,32 @@ struct JoinEventView: View {
             }
             .sheet(isPresented: $showScanner) {
                 QRScannerView { code in
-                    withAnimation(.spring(response: 0.5, dampingFraction: 0.8)) {
-                        scannedCode = code
+                    Task {
+                        let result = await QRScanHandler.handleScan(
+                            code,
+                            gardenVM: gardenVM,
+                            profileVM: profileVM
+                        )
+                        await MainActor.run {
+                            scanResult = result
+                            showResult = true
+                            showScanner = false
+                        }
                     }
-                    showScanner = false
+                }
+            }
+            .alert("Scan Result", isPresented: $showResult) {
+                Button("OK") { scanResult = nil }
+            } message: {
+                if let result = scanResult {
+                    switch result {
+                    case .eventJoined(let garden):
+                        Text("Joined \(garden.title)!")
+                    case .profileAdded(let profile):
+                        Text("Added \(profile.prefName)!")
+                    case .error(let message):
+                        Text(message)
+                    }
                 }
             }
         }

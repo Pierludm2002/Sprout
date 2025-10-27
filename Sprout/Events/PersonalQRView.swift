@@ -9,6 +9,11 @@ import SwiftUI
 
 struct PersonalQRView: View {
     @EnvironmentObject var profileVM: ProfileViewModel
+    @EnvironmentObject var gardenVM: GardenViewModel
+        
+        @State private var showScanner = false
+        @State private var scanResult: ScanResult?
+        @State private var showResult = false
 
     var body: some View {
         ZStack {
@@ -63,26 +68,7 @@ struct PersonalQRView: View {
                 
                 Spacer()
                 
-                Button(action: {
-                }) {
-                    HStack {
-                        Text("Scan and connect")
-                            .font(.system(size: 20, weight: .light))
-                            .foregroundColor(.black)
-                        
-                        Spacer()
-                        
-                        Image(systemName: "arrow.right")
-                            .font(.system(size: 20, weight: .light))
-                            .foregroundColor(.black)
-                    }
-                    .padding(.horizontal, 28)
-                    .padding(.vertical, 20)
-                    .background(
-                        RoundedRectangle(cornerRadius: 16)
-                            .fill(Color(red: 0.93, green: 1.00, blue: 0.53))
-                    )
-                }
+                ScanButtonView()
                 .padding(.horizontal, 32)
                 .padding(.bottom, 100)
             }

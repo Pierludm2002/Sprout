@@ -13,6 +13,7 @@ import CoreImage
 @MainActor
 final class GardenViewModel: ObservableObject {
     @Published var gardens: [Garden] = []
+    @Published var activeEventId: UUID?
 
     // while this is non-nil, user can’t create another event
     @Published var createdGarden: Garden?
@@ -33,6 +34,7 @@ final class GardenViewModel: ObservableObject {
 
         // restore previously created event (so QR is available after relaunch)
         restoreCreatedGardenLockIfNeeded()
+        loadActiveEvent()
     }
 
 
@@ -70,6 +72,34 @@ final class GardenViewModel: ObservableObject {
         createdGardenQR = nil
         removeCreatedGardenLock()
     }
+    
+    func joinEvent(_ garden: Garden) {
+        activeEventId = garden.id
+        UserDefaults.standard.set(garden.id.uuidString, forKey: "activeEventId")
+    }
+
+    func leaveEvent() {
+        activeEventId = nil
+        UserDefaults.standard.removeObject(forKey: "activeEventId")
+    }
+
+    func loadActiveEvent() {
+        if let idString = UserDefaults.standard.string(forKey: "activeEventId"),
+           let id = UUID(uuidString: idString) {
+            activeEventId = id
+        }
+    }
+
+    func addProfileToGarden(_ profile: Profile, gardenId: UUID) async {
+        guard var garden = gardens.first(where: { $0.id == gardenId }) else { return }
+        
+        // Check if profile already exists
+        if !garden.profiles.contains(where: { $0.id == profile.id }) {
+            garden.profiles.append(profile)
+            try? await updateGarden(garden)
+        }
+    }
+
 
 
     private func makeQR(for garden: Garden) -> UIImage? {

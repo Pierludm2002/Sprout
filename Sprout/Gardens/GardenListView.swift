@@ -5,7 +5,7 @@ import SwiftUI
 
 struct GardenListView: View {
     @EnvironmentObject private var gardenVM: GardenViewModel
-
+    
     var body: some View {
         NavigationStack {
             Group {
@@ -45,9 +45,14 @@ struct GardenListView: View {
         }
         .task {
             await gardenVM.load()
-            gardenVM.gardens.sort {
-                $0.date > $1.date
-            }
+            gardenVM.gardens.sort { garden1, garden2 in
+                let formatter = DateFormatter()
+                formatter.dateStyle = .medium
+                
+                let date1 = formatter.date(from: garden1.date) ?? .distantPast
+                let date2 = formatter.date(from: garden2.date) ?? .distantPast
+                
+                return date1 > date2            }
         }
     }
 }

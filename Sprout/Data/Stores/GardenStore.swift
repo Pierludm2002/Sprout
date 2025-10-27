@@ -91,61 +91,61 @@ final class MockGardenStore: GardenStore {
         
         
         let base: [Profile] = [
-            .init(prefName: "Luna Park", occupation: "Product Designer", company: "@Figma",
+            .init(prefName: "Luna Park", occupation: "Product Designer", company: "Figma",
                   socialImage: ["instagram"],
                   openTo: ["Collaboration", "Networking"], interestedIn: ["UX/UI Design", "Prototyping"],
                   workingOn: ["UX/UI Design"],
                   iconName: "ge1"),
 
-            .init(prefName: "Ethan Vale", occupation: "iOS Developer", company: "@Apple Dev Academy",
+            .init(prefName: "Ethan Vale", occupation: "iOS Developer", company: "Apple Dev Academy",
                   socialImage: ["github"],
                   openTo: ["Mentorship", "Skill sharing"], interestedIn: ["Swift", "App Development"],
                   workingOn: ["App Development"],
                   iconName: "ge2"),
 
-            .init(prefName: "Mila Reyes", occupation: "AI Researcher", company: "@DeepVision Lab",
+            .init(prefName: "Mila Reyes", occupation: "AI Researcher", company: "DeepVision Lab",
                   socialImage: ["github", "linkedin"],
                   openTo: ["Feedback", "Opportunities"], interestedIn: ["Machine Learning", "Ethical AI"],
                   workingOn: ["Machine Learning"],
                   iconName: "ge3"),
 
-            .init(prefName: "Kai Tanaka", occupation: "Creative Technologist", company: "@IDEO Tokyo",
+            .init(prefName: "Kai Tanaka", occupation: "Creative Technologist", company: "IDEO Tokyo",
                   socialImage: ["instagram"],
                   openTo: ["Collaboration", "Brainstorming"], interestedIn: ["AR/VR", "Interaction Design"],
                   workingOn: ["Interaction Design"],
                   iconName: "ge4"),
 
-            .init(prefName: "Isla Moreno", occupation: "Marketing Strategist", company: "@GrowthHaus",
+            .init(prefName: "Isla Moreno", occupation: "Marketing Strategist", company: "GrowthHaus",
                   socialImage: ["instagram"],
                   openTo: ["Networking", "Feedback"], interestedIn: ["Branding", "Digital Marketing"],
                   workingOn: ["Marketing Strategies"],
                   iconName: "ge5"),
 
-            .init(prefName: "Noah Kim", occupation: "Frontend Engineer", company: "@NextGen Studios",
+            .init(prefName: "Noah Kim", occupation: "Frontend Engineer", company: "NextGen Studios",
                   socialImage: ["github"],
                   openTo: ["Skill sharing", "Collaboration"], interestedIn: ["React", "Animations"],
                   workingOn: ["Web Development"],
                   iconName: "ge6"),
 
-            .init(prefName: "Clara Du", occupation: "Founder", company: "@Alloy Labs",
+            .init(prefName: "Clara Du", occupation: "Founder", company: "Alloy Labs",
                   socialImage: ["linkedin"],
                   openTo: ["Mentorship", "Opportunities"], interestedIn: ["Startups", "AI"],
                   workingOn: ["Startups"],
                   iconName: "ge7"),
 
-            .init(prefName: "Leo Marquez", occupation: "Data Scientist", company: "@Accenture",
+            .init(prefName: "Leo Marquez", occupation: "Data Scientist", company: "Accenture",
                   socialImage: ["github"],
                   openTo: ["Collaboration", "Feedback"], interestedIn: ["Data Analysis", "Cloud"],
                   workingOn: ["Data Analysis"],
                   iconName: "ge8"),
 
-            .init(prefName: "Ava Rinaldi", occupation: "App Developer", company: "@ONDA",
+            .init(prefName: "Ava Rinaldi", occupation: "App Developer", company: "ONDA",
                   socialImage: ["instagram"],
                   openTo: ["Networking", "Collaboration"], interestedIn: ["Fintech", "UX"],
                   workingOn: ["Fintech"],
                   iconName: "ge9"),
 
-            .init(prefName: "Renée Laurent", occupation: "UX Researcher", company: "@Sprout",
+            .init(prefName: "Renée Laurent", occupation: "UX Researcher", company: "Sprout",
                   socialImage: ["linkedin"],
                   openTo: ["Brainstorming", "Skill sharing"], interestedIn: ["Human-Centered Design"],
                   workingOn: ["UX/UI Design"],
@@ -153,10 +153,10 @@ final class MockGardenStore: GardenStore {
         ]
         
         let gardens: [Garden] = [
-            Garden(title: "Daiquiri Challenge", date: "Jan 12, 2025", profiles: Array(base.prefix(3))),
-            Garden(title: "WWDC 2025", date: "Jun 10, 2025", profiles: Array(base.prefix(6))),
-            Garden(title: "iOS Meetup Italy", date: "Apr 25, 2024", profiles: Array(base.prefix(5))),
-            Garden(title: "Naples iOS Lab",date: "Nov 2, 2025",  profiles: base)
+            Garden(title: "Daiquiri Challenge", date: "Jan 4, 2025", profiles: Array(base.prefix(3))),
+            Garden(title: "WWDC 2025", date: "Jan 22, 2025", profiles: Array(base.prefix(6))),
+            Garden(title: "iOS Meetup Italy", date: "Feb 7, 2024", profiles: Array(base.prefix(5))),
+            Garden(title: "Naples iOS Lab",date: "Mar 22, 2025",  profiles: base)
         ]
         
         subject.send(gardens)
