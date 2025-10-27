@@ -12,40 +12,43 @@ struct BarView: View {
     @EnvironmentObject var gardenVM: GardenViewModel
     
     var body: some View {
-        ZStack{
-            
-            LinearGradient(colors: [.green, .white], startPoint: .top , endPoint: .bottom).ignoresSafeArea()
-            TabView() {
-                ProfileView().tabItem {
-                    Image(systemName: "person")
-                    Text("Profile")
-                        .font(.title)
-                }.tag(1)
-                
-                ConnectCoordinatorView().tabItem {
-                    Image(systemName: "qrcode")
-                    Text("Connect")
-                        .font(.title)
-                }.tag(3)
-                
-                
-                GardenListView().tabItem {
-                    Image(systemName: "leaf.fill")
-                    Text("Gardens")
-                        .font(.title)
-                }.tag(3)
-                
+        TabView {
+            NavigationStack {
+                ProfileView()
             }
-            .task { await gardenVM.load() }
+            .tabItem {
+                Image(systemName: "person")
+                Text("Profile")
+            }
+            .tag(1)
             
+            NavigationStack {
+                ConnectCoordinatorView()
+            }
+            .tabItem {
+                Image(systemName: "qrcode")
+                Text("Connect")
+            }
+            .tag(2)
+            
+            NavigationStack {
+                GardenListView()
+            }
+            .tabItem {
+                Image(systemName: "leaf.fill")
+                Text("Gardens")
+            }
+            .tag(3)
         }
+        .task { await gardenVM.load() }
     }
 }
 
 #Preview("BarView – Store-backed") {
     let vm = GardenViewModel(store: MockGardenStore())
-    // Preload mock data for the preview
+    let profileVM = ProfileViewModel(store: LocalJSONProfileStore())
     Task { await vm.load() }
     return BarView()
         .environmentObject(vm)
+        .environmentObject(profileVM)
 }

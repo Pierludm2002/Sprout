@@ -20,35 +20,55 @@ struct GardenNameList: View {
     }
 
     var body: some View {
-        
-        NavigationStack {
+        ZStack {
+            GreenBackgroundView().ignoresSafeArea()
+            
             List {
                 ForEach(filteredProfiles) { profile in
-                    HStack {
-                        Image(profile.iconName)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 30, height: 30)
-                            .clipShape(Circle())
+                    Button {
+                    } label: {
+                        HStack(spacing: 12) {
+                            Image(profile.iconName)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 40, height: 40)
+                                .clipShape(Circle())
 
-                        VStack(alignment: .leading) {
-                            Text(profile.prefName)
-                                .font(.headline)
-                            Text("Guerriero Dragon")
-                                .font(.subheadline)
-                                .foregroundStyle(.secondary)
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(profile.prefName)
+                                    .font(.system(size: 20, weight: .semibold))
+                                    .foregroundColor(.black)
+                                
+                                if !profile.occupation.isEmpty || !profile.company.isEmpty {
+                                    Text("\(profile.occupation) @\(profile.company)")
+                                        .font(.system(size: 15, weight: .regular))
+                                        .foregroundColor(.gray)
+                                }
+                            }
+                            
+                            Spacer()
                         }
+                        .padding(.vertical, 8)
                     }
-                    .padding(.vertical, 6)
+                    .buttonStyle(.plain)
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
                 }
             }
             .listStyle(.plain)
-            .navigationTitle(garden.title)
+            .scrollContentBackground(.hidden)
             .searchable(
                 text: $searchText,
                 placement: .navigationBarDrawer(displayMode: .always),
                 prompt: "Who are you looking for?"
             )
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text(garden.title)
+                        .font(.system(size: 20, weight: .bold))
+                }
+            }
         }
     }
 }
@@ -57,7 +77,7 @@ struct GardenNameList: View {
 extension GardenViewModel {
     static func preview() -> GardenViewModel {
         let vm = GardenViewModel(store: MockGardenStore())
-        Task { vm.load() }
+        Task { await vm.load() }
         return vm
     }
 }

@@ -20,28 +20,34 @@ final class ProfileViewModel: ObservableObject {
     private var bag = Set<AnyCancellable>()
    
 
-    private struct SharePayload: Codable {
+    private struct ProfileQRPayload: Codable {
+        var type: String = "profile"
         let id: String
         let name: String
+        let occupation: String
         let company: String
+        let socialImage: [String]
         let openTo: [String]
         let interests: [String]
         let workingOn: [String]
+        let iconName: String
     }
 
     private var shareString: String {
-        let payload = SharePayload(
+        let payload = ProfileQRPayload(
             id: profile.id.uuidString,
             name: profile.prefName,
+            occupation: profile.occupation,
             company: profile.company,
+            socialImage: profile.socialImage,
             openTo: profile.openTo,
             interests: profile.interestedIn,
-            workingOn: profile.workingOn
+            workingOn: profile.workingOn,
+            iconName: profile.iconName
         )
         let data = (try? JSONEncoder().encode(payload)) ?? Data(profile.prefName.utf8)
         return String(data: data, encoding: .utf8) ?? profile.prefName
     }
-
     func buildQR() {
         let generator = QRCodeGenerator()
         qrImage = generator.make(from: shareString)

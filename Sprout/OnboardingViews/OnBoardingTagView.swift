@@ -31,7 +31,7 @@ struct OnBoardingTagView: View {
                         
                     
                     Text("What are you open to?")
-                        .font(.largeTitle)
+                        .font(AppStyles.TextStyle.pageTitle)
                         .bold()
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.horizontal)
@@ -55,18 +55,36 @@ struct OnBoardingTagView: View {
                                 }
                             }
                         }
-                        .padding(.horizontal)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal, 28)
+                        .padding(.top, 20)
                     }
                     
                     Spacer()
                     
                         
-                    ContinueButtonView(title: "Continue  →") {
-                        onNext()
-                    }
-                    .padding(.horizontal)
-                    .padding(.bottom, 20)
-                    .disabled(selectedOpenTo.isEmpty)
+                    Button(action: onNext) {
+                                       HStack {
+                                           Text("Continue")
+                                               .font(.system(size: 19, weight: .light))
+                                               .foregroundColor(.black)
+                                           
+                                           Spacer()
+                                           
+                                           Image(systemName: "arrow.right")
+                                               .font(.system(size: 19, weight: .light))
+                                               .foregroundColor(.black)
+                                       }
+                                       .padding(.horizontal, 24)
+                                       .padding(.vertical, 18)
+                                       .background(
+                                           RoundedRectangle(cornerRadius: 16)
+                                               .fill(Color(red: 0.93, green: 1.00, blue: 0.53))
+                                       )
+                                   }
+                                   .padding(.horizontal, 28)
+                                   .padding(.bottom, 40)
+                                   .disabled(selectedOpenTo.isEmpty)
                 }
             }
         }

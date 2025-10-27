@@ -11,12 +11,15 @@ struct GreenBackgroundView: View {
     var body: some View {
         
         LinearGradient(
-            gradient: Gradient(colors: [
-                Color("BrandColor"),
-                Color(.white)
-            ]), startPoint: .top,
+            gradient: Gradient(stops: [
+                .init(color: Color("BrandColor"), location: 0.0),
+                .init(color: Color(.whitish), location: 0.25),
+                .init(color: Color(.whitish), location: 1.0)
+            ]),
+            startPoint: .top,
             endPoint: .bottom
-        ).edgesIgnoringSafeArea(.all)
+        )
+        .edgesIgnoringSafeArea(.all)
     }
 }
 

@@ -5,9 +5,8 @@ import SwiftUI
 
 struct GardenListView: View {
     @EnvironmentObject private var gardenVM: GardenViewModel
-
+    
     var body: some View {
-        
         NavigationStack {
             Group {
                 if gardenVM.gardens.isEmpty {
@@ -38,37 +37,22 @@ struct GardenListView: View {
                     }
                 }
             }
-            .background(
-                LinearGradient(
-                    colors: [Color(.systemGray6), Color(.systemGray6)],
-                    startPoint: .top, endPoint: .bottom
-                )
-                .ignoresSafeArea()
-            )
+            .background(GreenBackgroundView().ignoresSafeArea())
             .navigationTitle("My Gardens")
+            .font(AppStyles.TextStyle.pageTitle)
             .navigationBarTitleDisplayMode(.large)
+            
         }
-        .task { gardenVM.load() }
-        
-    }
-}
-
-#Preview {
-    struct GardenListPreviewHost: View {
-        @StateObject var gardenVM = GardenViewModel(store: MockGardenStore())
-        @StateObject var profileVM = ProfileViewModel(store: LocalJSONProfileStore())
-
-        var body: some View {
-            NavigationStack {
-                GardenListView()
-                    .environmentObject(gardenVM)
-                    .environmentObject(profileVM)
-            }
-            .task {
-                gardenVM.load()
-                profileVM.load()
-            }
+        .task {
+            await gardenVM.load()
+            gardenVM.gardens.sort { garden1, garden2 in
+                let formatter = DateFormatter()
+                formatter.dateStyle = .medium
+                
+                let date1 = formatter.date(from: garden1.date) ?? .distantPast
+                let date2 = formatter.date(from: garden2.date) ?? .distantPast
+                
+                return date1 > date2            }
         }
     }
-    return GardenListPreviewHost()
 }
