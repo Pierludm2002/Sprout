@@ -9,19 +9,19 @@ import SwiftUI
 
 struct CreateGardenView: View {
     @EnvironmentObject private var gardenVM: GardenViewModel
-
+    
     @State private var gardenName: String = ""
     @State private var date: Date = Date()
     @State private var showQR = false
-
+    
     var body: some View {
         ZStack{
             GreenBackgroundView().ignoresSafeArea()
             
             VStack(spacing: 16) {
-                Text("Create a new Garden!")
+                Text("Create an event")
                     .font(AppStyles.TextStyle.pageTitle)
-                    .frame(maxWidth: .infinity, alignment: .center)
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     .padding()
                 
                 Form {
@@ -95,47 +95,47 @@ private struct GardenQRSheet: View {
     let qr: UIImage?
     let onClose: () -> Void
     let onClearLock: () -> Void
-
+    
     var body: some View {
-        VStack(spacing: 16) {
-            Text("Your event QR")
-                .font(AppStyles.TextStyle.pageTitle)
-
-            if let g = garden {
-                Text(g.title).font(.headline)
-                Text(g.date).foregroundStyle(.secondary)
+        ZStack{
+            Color("Greyish")
+                .ignoresSafeArea()
+            
+            VStack(spacing: 16) {
+                Text("Your event QR")
+                    .font(AppStyles.TextStyle.pageTitle)
+                
+                if let g = garden {
+                    Text(g.title).font(.headline)
+                    Text(g.date).foregroundStyle(.secondary)
+                }
+                
+                if let img = qr {
+                    Image(uiImage: img)
+                        .interpolation(.none)
+                        .resizable()
+                        .frame(width: 260, height: 260)
+                        .background(.greyish)
+                        .clipShape(RoundedRectangle(cornerRadius: 16))
+                        .shadow(radius: 8)
+                } else {
+                    ProgressView()
+                }
+                
+                Text("Share this QR with your guests. You can’t create another event until this one is cleared.")
+                    .font(.footnote)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal)
+                
+                HStack {
+                    Button("Close", action: onClose)
+                    Spacer()
+                    Button("Clear & Create New") { onClearLock() }
+                        .tint(.red)
+                }
+                .padding(.top, 8)
             }
-
-            if let img = qr {
-                Image(uiImage: img)
-                    .interpolation(.none)
-                    .resizable()
-                    .frame(width: 260, height: 260)
-                    .background(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 16))
-                    .shadow(radius: 8)
-            } else {
-                ProgressView()
-            }
-
-            Text("Share this QR with your guests. You can’t create another event until this one is cleared.")
-                .font(.footnote)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal)
-
-            HStack {
-                Button("Close", action: onClose)
-                Spacer()
-                Button("Clear & Create New") { onClearLock() }
-                    .tint(.red)
-            }
-            .padding(.top, 8)
+            .padding()
         }
-        .padding()
-        .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(Color(.systemBackground))
-        )
-        .padding()
     }
 }

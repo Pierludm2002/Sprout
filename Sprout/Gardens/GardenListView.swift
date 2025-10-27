@@ -7,7 +7,6 @@ struct GardenListView: View {
     @EnvironmentObject private var gardenVM: GardenViewModel
 
     var body: some View {
-        
         NavigationStack {
             Group {
                 if gardenVM.gardens.isEmpty {
@@ -38,13 +37,7 @@ struct GardenListView: View {
                     }
                 }
             }
-            .background(
-                LinearGradient(
-                    colors: [Color(.systemGray6), Color(.systemGray6)],
-                    startPoint: .top, endPoint: .bottom
-                )
-                .ignoresSafeArea()
-            )
+            .background(GreenBackgroundView().ignoresSafeArea())
             .navigationTitle("My Gardens")
             .navigationBarTitleDisplayMode(.large)
         }
@@ -54,26 +47,5 @@ struct GardenListView: View {
                 $0.date > $1.date
             }
         }
-        
     }
-}
-
-#Preview {
-    struct GardenListPreviewHost: View {
-        @StateObject var gardenVM = GardenViewModel(store: MockGardenStore())
-        @StateObject var profileVM = ProfileViewModel(store: LocalJSONProfileStore())
-
-        var body: some View {
-            NavigationStack {
-                GardenListView()
-                    .environmentObject(gardenVM)
-                    .environmentObject(profileVM)
-            }
-            .task {
-                await gardenVM.load()
-                profileVM.load()
-            }
-        }
-    }
-    return GardenListPreviewHost()
 }

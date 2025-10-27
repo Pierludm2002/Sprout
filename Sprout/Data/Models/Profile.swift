@@ -12,7 +12,8 @@ struct Profile: Identifiable, Codable, Equatable {
     var prefName: String
     var occupation: String
     var company: String
-    var socialImage: [String] // social media bagjes
+    var socialImage: [String] // social media bages
+    var socialLinks: [String: String] = [:]
     var openTo: [String]
     var interestedIn: [String]
     var workingOn: [String]

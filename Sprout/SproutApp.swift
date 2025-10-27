@@ -10,7 +10,8 @@ import SwiftUI
 @main
 struct SproutApp: App {
     let profileStore: ProfileStore = LocalJSONProfileStore()
-    let gardenStore: GardenStore = LocalJSONGardenStore()
+    // let gardenStore: GardenStore = LocalJSONGardenStore()
+    let gardenStore: GardenStore = MockGardenStore() 
     
     var body: some Scene {
         WindowGroup {

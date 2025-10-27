@@ -15,10 +15,9 @@ struct GardenCardView: View {
     @State private var selectedProfile: Profile? = nil
     @State private var canvasHeight: CGFloat = 200
     
-    
-    private let gardenSideInset: CGFloat = 16 // left/right margin inside the garden area
-    private let gardenTopInset: CGFloat = 12 // space below the date text
-    private let gardenBottomInset: CGFloat = 16 // space above the card’s bottom
+    private let gardenSideInset: CGFloat = 16
+    private let gardenTopInset: CGFloat = 12
+    private let gardenBottomInset: CGFloat = 16
     
     private func layout(for size: CGSize) {
         let result = ringLayout(
@@ -37,7 +36,6 @@ struct GardenCardView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-
             HStack {
                 Text(garden.title)
                     .font(.title)
@@ -48,7 +46,7 @@ struct GardenCardView: View {
                 NavigationLink {
                     GardenNameList(garden: garden)
                 } label: {
-                    Image(systemName: "arrow.right.circle")
+                    Image(systemName: "arrow.right")
                         .font(.title)
                         .foregroundColor(.black)
                 }
@@ -76,16 +74,15 @@ struct GardenCardView: View {
             }
             .frame(height: canvasHeight)
         }
-        // modal when clicked
         .sheet(item: $selectedProfile) { profile in
-            ProfileView()
-            .presentationDetents([.medium, .large])
-            .presentationDragIndicator(.visible)
+            OtherProfileView(profile: profile)
+                .presentationDetents([.medium, .large])
+                .presentationDragIndicator(.visible)
         }
         .padding(16)
         .background(
             RoundedRectangle(cornerRadius: 20)
-                .fill(Color("BrandColor"))
+                .fill(Color("Greyish"))
         )
         .overlay(
             RoundedRectangle(cornerRadius: 20)
@@ -96,14 +93,14 @@ struct GardenCardView: View {
     
     private func ringLayout(
         count: Int,
-            width: CGFloat,
-            height: CGFloat,
-            iconDiameter: CGFloat = 40, // Image().frame
-            spacing: CGFloat = 12, // gap between neighbors in the ring
-            ringGap: CGFloat = 18, // distance between rings
-            centerHole: CGFloat = 70,// how far the first ring is from the center
-        sideInset: CGFloat = 0.1,// left/right padding that must be respected
-            verticalPadding: CGFloat = 24 // extra breathing room in height computation
+        width: CGFloat,
+        height: CGFloat,
+        iconDiameter: CGFloat = 40,
+        spacing: CGFloat = 12,
+        ringGap: CGFloat = 18,
+        centerHole: CGFloat = 70,
+        sideInset: CGFloat = 0.1,
+        verticalPadding: CGFloat = 24
     ) -> (points: [CGPoint], requiredHeight: CGFloat) {
         
         guard count > 0 else { return ([], iconDiameter + 2*verticalPadding) }
@@ -112,7 +109,6 @@ struct GardenCardView: View {
         let cy = height / 2
         var points: [CGPoint] = []
         
-        // place 1 exactly in the center first
         points.append(CGPoint(x: cx, y: cy))
         if count == 1 {
             return (points, iconDiameter + 2*verticalPadding)
@@ -122,10 +118,7 @@ struct GardenCardView: View {
         var ring = 0
         var maxRadius: CGFloat = 0
         
-        // per-item arc
         let perIconArc: CGFloat = iconDiameter + spacing
-        
-        // usable width once side insets and icon radius are considered
         let halfIcon = iconDiameter / 2
         let usableHalfWidth = max(0, (width - 2*sideInset)/2 - halfIcon)
         
@@ -133,10 +126,8 @@ struct GardenCardView: View {
             let r = centerHole + CGFloat(ring + 1) * (iconDiameter + ringGap)
             maxRadius = max(maxRadius, r)
             
-            // full circle is available by default
             var allowedSpans: [(start: CGFloat, end: CGFloat)] = [(0, 2*CGFloat.pi)]
             
-            // if this ring would violate the side padding restrict to top/bottom arcs
             if r > usableHalfWidth {
                 let ratio = min(1, max(0, usableHalfWidth / r))
                 let alpha = acos(ratio)
@@ -151,24 +142,18 @@ struct GardenCardView: View {
                 if bottomEnd > bottomStart { allowedSpans.append((bottomStart, bottomEnd)) }
             }
             
-            // angular length available on this ring
             let totalAngle = allowedSpans.reduce(0) { $0 + ($1.end - $1.start) }
-            // circumference available
             let effectiveCircumference = r * totalAngle
             let capacity = max(1, Int(floor(effectiveCircumference / perIconArc)))
             
             let toPlace = min(remaining, capacity)
-            
-            // distribute items proportionally across allowed spans
             var itemsLeft = toPlace
             var placedThisRing = 0
             
-            // helper to place items evenly
             func place(_ n: Int, in span: (start: CGFloat, end: CGFloat)) {
                 guard n > 0 else { return }
                 let a = span.start, b = span.end
                 let spanLen = b - a
-                // even spacing inside the arc or if n == 1, its put in the middle
                 let step = n > 1 ? spanLen / CGFloat(n) : 0
                 for i in 0..<n {
                     let mid = n > 1 ? (a + (CGFloat(i) + 0.5) * step) : (a + spanLen/2)
@@ -195,37 +180,119 @@ struct GardenCardView: View {
         
         let requiredHeight = 2 * (maxRadius + halfIcon) + 2 * verticalPadding
         return (points, requiredHeight)
-        
     }
 }
 
-#if DEBUG
-private extension Profile {
-    static let p1 = Profile(prefName: "Ana", iconName: "ge1")
-    static let p2 = Profile(prefName: "Shifu", iconName: "ge2")
-    static let p3 = Profile(prefName: "Tigress", iconName: "ge3")
+
+struct OtherProfileView: View {
+    let profile: Profile
+    
+    var body: some View {
+        NavigationStack {
+            ScrollView {
+                VStack(spacing: 5) {
+                    HStack {
+                        Image("DefaultProfilePic")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 120, height: 120)
+                            .clipShape(Circle())
+                            .padding(40)
+                        Spacer()
+                    }
+                    
+                    HStack {
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text(profile.prefName)
+                                .font(AppStyles.TextStyle.pageTitle)
+                            
+                            if !profile.occupation.isEmpty {
+                                Text(profile.occupation)
+                                    .font(.title3)
+                                    .foregroundColor(.black)
+                            }
+                            
+                            if !profile.company.isEmpty {
+                                Text(profile.company)
+                                    .font(.title3)
+                                    .foregroundColor(.greyish)
+                            }
+                        }
+                        Spacer()
+                    }
+                    
+                    Divider()
+                        .padding(.vertical, 20)
+                    
+                    VStack(spacing: 20) {
+                        if !profile.openTo.isEmpty {
+                            VStack(alignment: .leading, spacing: 8) {
+                                HStack {
+                                    Text("Open To")
+                                        .font(AppStyles.TextStyle.subtitle)
+                                    Spacer()
+                                }
+                                FlowLayout(spacing: 8, alignment: .leading) {
+                                    ForEach(profile.openTo, id: \.self) { open in
+                                        TagView(title: open)
+                                            .font(AppStyles.TextStyle.body)
+                                    }
+                                }
+                            }
+                        }
+                        
+                        if !profile.interestedIn.isEmpty {
+                            VStack(alignment: .leading, spacing: 8) {
+                                HStack {
+                                    Text("Interested In")
+                                        .font(AppStyles.TextStyle.subtitle)
+                                    Spacer()
+                                }
+                                FlowLayout(spacing: 8, alignment: .leading) {
+                                    ForEach(profile.interestedIn, id: \.self) { interest in
+                                        TagView(title: interest)
+                                            .font(AppStyles.TextStyle.body)
+                                    }
+                                }
+                            }
+                        }
+                        
+                        if !profile.workingOn.isEmpty {
+                            VStack(alignment: .leading, spacing: 8) {
+                                HStack {
+                                    Text("Working on")
+                                        .font(AppStyles.TextStyle.subtitle)
+                                    Spacer()
+                                }
+                                FlowLayout(spacing: 8, alignment: .leading) {
+                                    ForEach(profile.workingOn, id: \.self) { work in
+                                        TagView(title: work)
+                                            .font(AppStyles.TextStyle.body)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                .padding(.horizontal, 30)
+            }
+            .backgroundView()
+            .navigationBarTitleDisplayMode(.inline)
+        }
+    }
 }
-private extension Garden {
-    static let previewSmall = Garden(
-        title: "Preview Garden",
-        date: "Jan 1, 2025",
-        profiles: [.p1, .p2, .p3, .p1, .p2, .p3]
-    )
-}
-#endif
 
 #Preview {
     struct GardenCardPreviewHost: View {
         @StateObject var profileVM = ProfileViewModel(store: LocalJSONProfileStore())
 
-        // Simple sample garden just for the preview
         private let previewGarden = Garden(
             title: "Preview Meetup",
             date: "Jan 12, 2025",
             profiles: [
-                .init(prefName: "Ana", iconName: "ge1"),
-                .init(prefName: "Shifu", iconName: "ge2"),
-                .init(prefName: "Tigress", iconName: "ge3")
+                .init(prefName: "Ana", occupation: "iOS Dev", company: "@Apple", iconName: "ge1"),
+                .init(prefName: "Shifu", occupation: "Master", company: "@Jade Palace", iconName: "ge2"),
+                .init(prefName: "Tigress", occupation: "Warrior", company: "@Valley", iconName: "ge3")
             ]
         )
 

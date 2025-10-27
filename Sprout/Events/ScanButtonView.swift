@@ -39,7 +39,7 @@ struct ScanButtonView: View {
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
-        }
+        }.background(Color.clear) 
     }
 }
 
