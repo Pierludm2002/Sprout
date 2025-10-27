@@ -17,53 +17,49 @@ struct OnboardingCoordinatorView: View {
     
     var body: some View {
         NavigationStack {
-            
-                switch step {
-                case .cardInfo:
-                    CardInfoView(
-                        preferredName: $draft.name,
-                        jobTitle: $draft.occupation,
-                        company: $draft.company,
-                        onNext: { withAnimation { step = .openTo } },
-                        onBack: nil
-                    )
-                    
-                case .openTo:
-                    OnBoardingTagView(
-                        selectedOpenTo: $draft.openTo,
-                        onNext: { withAnimation {step = .interestIn} },
-                        onBack: { withAnimation { step = .cardInfo } }
-                    )
-                    
-                case .interestIn:
-                    InterestedInView(selectedInterests: $draft.interestedIn,
-                                     onNext: {withAnimation {step = .workingOn}},
-                                     onBack: { withAnimation {step = .openTo}}
-                    )
-                case .workingOn:
-                    LearningOnboardingView(selectedTags: $draft.workingOn,
-                                           onNext: { withAnimation {step = .photo}},
-                                           onBack: {withAnimation{step = .interestIn}})
-                    
-                    
-                case .photo:
-                    PhotoOnboardingView(
-                                        onNext: {
-                                            finish()
-                                            step = .done},
-                                        onBack: {step = .workingOn})
-                    
-                    
-                case .done:
-                    ProfileView()
-                    
-                }
+            switch step {
+            case .cardInfo:
+                CardInfoView(
+                    preferredName: $draft.name,
+                    jobTitle: $draft.occupation,
+                    company: $draft.company,
+                    onNext: { withAnimation { step = .openTo } },
+                    onBack: nil
+                )
                 
-            
+            case .openTo:
+                OnBoardingTagView(
+                    selectedOpenTo: $draft.openTo,
+                    onNext: { withAnimation { step = .interestIn } },
+                    onBack: { withAnimation { step = .cardInfo } }
+                )
+                
+            case .interestIn:
+                InterestedInView(
+                    selectedInterests: $draft.interestedIn,
+                    onNext: { withAnimation { step = .workingOn } },
+                    onBack: { withAnimation { step = .openTo } }
+                )
+                
+            case .workingOn:
+                LearningOnboardingView(
+                    selectedTags: $draft.workingOn,
+                    onNext: {
+                        withAnimation {
+                            finish()
+                            step = .done
+                        }
+                    },
+                    onBack: { withAnimation { step = .interestIn } }
+                )
+                
+            case .done:
+                ProfileView()
+            }
         }
         .toolbar {
             ToolbarItem(placement: .principal) {
-                Text("\(step.index)/2")
+                Text("\(step.index)/4")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
             }
@@ -75,16 +71,14 @@ struct OnboardingCoordinatorView: View {
             prefName: draft.name,
             occupation: draft.occupation,
             company: draft.company,
-            socialImage: ["instagram","github"],
+            socialImage: ["instagram", "github"],
             openTo: draft.openTo,
             interestedIn: draft.interestedIn,
             workingOn: draft.workingOn,
-            iconName: draft.pic == nil ?"DefaultProfilePic" : ""
+            iconName: "ge1"
         )
         
         profileVM.saveChanges(profile)
-        
-        onDone()
     }
     
     enum Step: Int {
@@ -92,8 +86,7 @@ struct OnboardingCoordinatorView: View {
         case openTo = 2
         case interestIn = 3
         case workingOn = 4
-        case photo = 5
-        case done = 6
+        case done = 5
         var index: Int { rawValue }
     }
     
@@ -104,11 +97,10 @@ struct OnboardingCoordinatorView: View {
         var openTo: [String] = []
         var interestedIn: [String] = []
         var workingOn: [String] = []
-        var pic: Data?
     }
 }
 #Preview {
-    // Preview needs the env object
+
     let vm = ProfileViewModel(store: LocalJSONProfileStore())
     return OnboardingCoordinatorView(onDone: {})
         .environmentObject(vm)

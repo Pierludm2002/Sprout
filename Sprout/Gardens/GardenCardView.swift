@@ -38,7 +38,7 @@ struct GardenCardView: View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
                 Text(garden.title)
-                    .font(.title)
+                    .font(AppStyles.TextStyle.subtitle)
                     .fontWeight(.semibold)
 
                 Spacer()
@@ -54,9 +54,14 @@ struct GardenCardView: View {
             }
 
             Text(garden.date)
-                .font(.title2)
-                .fontWeight(.medium)
-                .padding(.vertical, 2)
+                .font(.system(size: 16, weight: .regular))
+                .foregroundColor(.gray)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 6)
+                .background(
+                    Capsule()
+                        .stroke(Color.gray, lineWidth: 0.8)
+                )
 
             GeometryReader { geo in
                 ZStack {
@@ -88,7 +93,7 @@ struct GardenCardView: View {
             RoundedRectangle(cornerRadius: 20)
                 .stroke(Color.gray.opacity(0.15))
         )
-        .shadow(radius: 2)
+        .shadow(color: .black.opacity(0.08), radius: 10, x: 0, y: 4)
     }
     
     private func ringLayout(
@@ -180,105 +185,6 @@ struct GardenCardView: View {
         
         let requiredHeight = 2 * (maxRadius + halfIcon) + 2 * verticalPadding
         return (points, requiredHeight)
-    }
-}
-
-
-struct OtherProfileView: View {
-    let profile: Profile
-    
-    var body: some View {
-        NavigationStack {
-            ScrollView {
-                VStack(spacing: 5) {
-                    HStack {
-                        Image("DefaultProfilePic")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 120, height: 120)
-                            .clipShape(Circle())
-                            .padding(40)
-                        Spacer()
-                    }
-                    
-                    HStack {
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text(profile.prefName)
-                                .font(AppStyles.TextStyle.pageTitle)
-                            
-                            if !profile.occupation.isEmpty {
-                                Text(profile.occupation)
-                                    .font(.title3)
-                                    .foregroundColor(.black)
-                            }
-                            
-                            if !profile.company.isEmpty {
-                                Text(profile.company)
-                                    .font(.title3)
-                                    .foregroundColor(.greyish)
-                            }
-                        }
-                        Spacer()
-                    }
-                    
-                    Divider()
-                        .padding(.vertical, 20)
-                    
-                    VStack(spacing: 20) {
-                        if !profile.openTo.isEmpty {
-                            VStack(alignment: .leading, spacing: 8) {
-                                HStack {
-                                    Text("Open To")
-                                        .font(AppStyles.TextStyle.subtitle)
-                                    Spacer()
-                                }
-                                FlowLayout(spacing: 8, alignment: .leading) {
-                                    ForEach(profile.openTo, id: \.self) { open in
-                                        TagView(title: open)
-                                            .font(AppStyles.TextStyle.body)
-                                    }
-                                }
-                            }
-                        }
-                        
-                        if !profile.interestedIn.isEmpty {
-                            VStack(alignment: .leading, spacing: 8) {
-                                HStack {
-                                    Text("Interested In")
-                                        .font(AppStyles.TextStyle.subtitle)
-                                    Spacer()
-                                }
-                                FlowLayout(spacing: 8, alignment: .leading) {
-                                    ForEach(profile.interestedIn, id: \.self) { interest in
-                                        TagView(title: interest)
-                                            .font(AppStyles.TextStyle.body)
-                                    }
-                                }
-                            }
-                        }
-                        
-                        if !profile.workingOn.isEmpty {
-                            VStack(alignment: .leading, spacing: 8) {
-                                HStack {
-                                    Text("Working on")
-                                        .font(AppStyles.TextStyle.subtitle)
-                                    Spacer()
-                                }
-                                FlowLayout(spacing: 8, alignment: .leading) {
-                                    ForEach(profile.workingOn, id: \.self) { work in
-                                        TagView(title: work)
-                                            .font(AppStyles.TextStyle.body)
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                .padding(.horizontal, 30)
-            }
-            .backgroundView()
-            .navigationBarTitleDisplayMode(.inline)
-        }
     }
 }
 

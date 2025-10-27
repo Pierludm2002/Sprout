@@ -39,7 +39,9 @@ struct GardenListView: View {
             }
             .background(GreenBackgroundView().ignoresSafeArea())
             .navigationTitle("My Gardens")
+            .font(AppStyles.TextStyle.pageTitle)
             .navigationBarTitleDisplayMode(.large)
+            
         }
         .task {
             await gardenVM.load()
